@@ -2,14 +2,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app-deployment  # Unique name for the deployment
+  name: projectphoenix-app-deployment  # Unique name for the deployment
   labels:
-    app: my-app # Label to identify the application
+    app: projectphoenix-app # Label to identify the application
 spec:
   replicas: 3 # Number of desired replicas for high availability
   selector:
     matchLabels:
-      app: my-app # Select pods with this label
+      app: projectphoenix-app # Select pods with this label
   strategy:
     type: RollingUpdate # Recommended for smooth updates
     rollingUpdate:
@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: projectphoenix-app-container # Name of the container
-        image: my-docker-registry/my-app:latest #  Container image with version tag
+        image: projectphoenix-docker-registry/projectphoenix-app:latest #  Container image with version tag
         ports:
         - containerPort: 8080 #  Port the application listens on
         resources:
@@ -45,22 +45,22 @@ spec:
           initialDelaySeconds: 5 # Delay before the first readiness check
           periodSeconds: 5 # How often to perform the check
         env: # Environment variables
-          - name: MY_ENV_VAR # Example environment variable
-            value: my-value
+          - name: ENV_RISEPATH # Example environment variable
+            value: up+forward
         volumeMounts: # Mount volumes to the container
-          - name: my-config-volume
+          - name: projectphoenix-config-volume
             mountPath: /app/config
-          - name: my-data-volume
+          - name: projectphoenix-data-volume
             mountPath: /app/data
       volumes: # Define volumes
-        - name: my-config-volume
+        - name: projectphoenix-config-volume
           configMap: # Use a ConfigMap for configuration data
-            name: my-app-config
-        - name: my-data-volume
+            name: projectphoenix-app-config
+        - name: projectphoenix-data-volume
           persistentVolumeClaim: # Use a PersistentVolumeClaim for persistent storage
-            claimName: my-app-pvc
+            claimName: projectphoenix-app-pvc
       imagePullSecrets: # Pull secrets for private image registries
-      - name: my-registry-secret
+      - name: projectphoenix-registry-secret
       nodeSelector: # Schedule pods on specific nodes
         disktype: ssd
       tolerations: # Allow pods to run on tained nodes
