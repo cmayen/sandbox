@@ -1,0 +1,10 @@
+k config current-context
+k get namespaces
+kubectl run nginx-chris --image=nginx
+k get pods
+k run httpd-chris --image=httpd
+k get pods
+k describe pod nginx-chris
+k config current-context
+kubectl run nginx-yaml --image=nginx --dry-run=client -o yaml
+kubectl apply -f nginx-yaml-pod.yaml
