@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama-rocm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama-rocm
+  template:
+    metadata:
+      labels:
+        app: ollama-rocm
+    spec:
+      containers:
+      - name: ollama
+        image: ollama/ollama:rocm
+        ports:
+        - containerPort: 11434
+          name: ollama
+        volumeMounts:
+        - name: ollama-data
+          mountPath: /root/.ollama
+        resources:
+          requests:
+            memory: "8Gi"
+            #cpu: "64"
+          limits:
+            memory: "8Gi"
+            #cpu: "64"
+            #amd.com/gpu: 1
+      volumes:
+      - name: ollama-data
+        hostPath:
+          path: /var/lib/ollama/.ollama
+          type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama-service-rocm
+spec:
+  selector:
+    app: ollama-rocm
+  ports:
+  - protocol: TCP
+    port: 11434
+    targetPort: 11434
+    name: ollama

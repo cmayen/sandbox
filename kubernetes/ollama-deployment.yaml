@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ollama
+  name: ollama
+  namespace: ollama
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      containers:
+        - env:
+            - name: OLLAMA_HOST
+              value: 0.0.0.0
+            - name: OLLAMA_KEEP_ALIVE
+              value: 24h
+            #- name: HSA_OVERRIDE_GFX_VERSION
+            #  value: "10.3.0"
+            #- name: AMD_SERIALIZE_KERNEL
+            #  value: "3"
+            #- name: OLLAMA_LLM_LIBRARY
+            #  value: "rocm_v60002"
+          # image: ollama/ollama:latest
+          image: ollama/ollama:rocm
+          # image: bergutman/ollama-rocm
+          name: ollama
+          ports:
+            - containerPort: 11434
+              hostPort: 7869
+              protocol: TCP
+          tty: true
+          volumeMounts:
+            - mountPath: /code
+              name: ollama-claim0
+            - mountPath: /root/.ollama
+              name: ollama-claim1
+          resources:
+            limits:
+              amd.com/gpu: 1 # requesting a GPU
+      restartPolicy: Always
+      volumes:
+        - name: ollama-claim0
+          persistentVolumeClaim:
+            claimName: ollama-claim0
+        - name: ollama-claim1
+          persistentVolumeClaim:
+            claimName: ollama-claim1

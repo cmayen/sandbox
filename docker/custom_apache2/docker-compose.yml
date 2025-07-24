@@ -1,0 +1,10 @@
+services:
+  mytestservice:
+    image: mdev-apache2test:test
+    restart: unless-stopped
+    container_name: apache2testcd
+    network_mode: "bridge"
+    ports:
+      - "80:08"
+    command: >
+      apache2ctl -D FOREGROUND
