@@ -2,7 +2,7 @@
 
 # run initial updates
 sudo apt update
-sudo apr upgrade -y
+sudo apt upgrade -y
 
 # disable swap
 sudo swapoff -a
