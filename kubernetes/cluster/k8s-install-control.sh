@@ -11,8 +11,8 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # apply flannel yaml from master project at github
-kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
-#kubectl apply -f flannel.yaml
+#kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+kubectl apply -f kube-flannel.yaml
 
 # flannel for some reason doesnt take the network correctly
 # from the yaml?? wtheck man
