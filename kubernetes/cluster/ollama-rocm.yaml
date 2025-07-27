@@ -30,6 +30,10 @@ spec:
         env:
         - name: OLLAMA_HOST
           value: "0.0.0.0"
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/bash", "-c", "ollama pull llama3.1"] # pre-pull model
         #- name: HSA_OVERRIDE_GFX_VERSION
         #  value: "10.3.0"
         volumeMounts:

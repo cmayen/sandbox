@@ -14,3 +14,10 @@ k8s-install-control.sh
 k8s-install-amd.sh
 ```
 
+##### Ollama deploy
+(allowed on control plane for this cluster using tolerations)
+```
+kubectl apply -f ollama-rocm.yaml
+``` 
+
+
